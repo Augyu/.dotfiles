@@ -43,36 +43,39 @@ This is a personal WezTerm configuration with no build process or dependencies. 
 
 ## Tmux Configuration
 
-### Tmux Keybindings (Prefix: Ctrl+z)
+### Tmux Keybindings (Prefix: ` backtick)
 
 **Pane Management:**
-- `Ctrl+z ;` - Split pane horizontally
-- `Ctrl+z '` - Split pane vertically
-- `Ctrl+z hjkl` - Navigate between panes (vim-style)
-- `Ctrl+z x` - Close current pane (with confirmation)
+- `` ` ; `` - Split pane horizontally
+- `` ` ' `` - Split pane vertically
+- `` ` hjkl `` - Navigate between panes (vim-style)
+- `` ` x `` - Close current pane (with confirmation)
 - `exit` or `Ctrl+d` - Close pane by exiting shell
 
 **Pane Resizing:**
-- `Ctrl+z H` - Resize left (can repeat H after initial prefix)
-- `Ctrl+z L` - Resize right (can repeat L after initial prefix)
-- `Ctrl+z J` - Resize down (can repeat J after initial prefix)
-- `Ctrl+z K` - Resize up (can repeat K after initial prefix)
-- `Ctrl+z z` - Toggle zoom/unzoom current pane
+- `` ` H `` - Resize left (can repeat H after initial prefix)
+- `` ` L `` - Resize right (can repeat L after initial prefix)
+- `` ` J `` - Resize down (can repeat J after initial prefix)
+- `` ` K `` - Resize up (can repeat K after initial prefix)
+- `` ` z `` - Toggle zoom/unzoom current pane
 
 **Window Management:**
-- `Ctrl+z c` - Create new window
-- `Ctrl+z &` - Kill current window
+- `` ` c `` - Create new window
+- `` ` & `` - Kill current window
 
 **Session Management:**
-- `Ctrl+z d` - Detach from session
+- `` ` d `` - Detach from session
 - `tmux new-session -s name` - Create new named session
 - `tmux attach -t name` - Attach to existing session
 - `tmux list-sessions` - List all sessions
 
 **Session Restore (automatic with plugins):**
-- `Ctrl+z Ctrl+s` - Save session manually
-- `Ctrl+z Ctrl+r` - Restore session manually
-- `Ctrl+z I` - Install tmux plugins (run once after config changes)
+- `` ` Ctrl+s `` - Save session manually
+- `` ` Ctrl+r `` - Restore session manually
+- `` ` I `` - Install tmux plugins (run once after config changes)
+
+**Special Notes:**
+- To type a literal backtick: Press `` ` `` twice (`` ` ` ``)
 
 ### Tmux Features
 - **Auto-save**: Sessions saved every 15 minutes automatically

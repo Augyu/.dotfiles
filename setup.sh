@@ -68,12 +68,26 @@ print_status "JetBrainsMono Nerd Font installed"
 mkdir -p ~/.config/wezterm
 print_status "WezTerm config directory created"
 
-# Copy WezTerm configuration
+# Backup and copy WezTerm configuration
+if [ -f ~/.config/wezterm/wezterm.lua ]; then
+    cp ~/.config/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua.backup
+    print_warning "Backed up existing wezterm.lua to wezterm.lua.backup"
+fi
+if [ -f ~/.config/wezterm/CLAUDE.md ]; then
+    cp ~/.config/wezterm/CLAUDE.md ~/.config/wezterm/CLAUDE.md.backup
+    print_warning "Backed up existing CLAUDE.md to CLAUDE.md.backup"
+fi
+
 cp wezterm.lua ~/.config/wezterm/
 cp CLAUDE.md ~/.config/wezterm/
 print_status "WezTerm configuration copied"
 
-# Copy tmux configuration
+# Backup and copy tmux configuration
+if [ -f ~/.tmux.conf ]; then
+    cp ~/.tmux.conf ~/.tmux.conf.backup
+    print_warning "Backed up existing .tmux.conf to .tmux.conf.backup"
+fi
+
 cp tmux.conf ~/.tmux.conf
 print_status "Tmux configuration copied"
 

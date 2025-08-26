@@ -57,6 +57,7 @@ This is a personal WezTerm configuration with no build process or dependencies. 
 - `Ctrl+z L` - Resize right (can repeat L after initial prefix)
 - `Ctrl+z J` - Resize down (can repeat J after initial prefix)
 - `Ctrl+z K` - Resize up (can repeat K after initial prefix)
+- `Ctrl+z z` - Toggle zoom/unzoom current pane
 
 **Window Management:**
 - `Ctrl+z c` - Create new window

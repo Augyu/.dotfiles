@@ -4,90 +4,56 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a WezTerm terminal emulator configuration repository. The entire configuration consists of a single Lua file (`wezterm.lua`) that defines the terminal's appearance and behavior.
+Personal dotfiles for a macOS terminal environment: Ghostty, tmux, and Neovim. Each tool has its own subdirectory; `install.sh` symlinks them into place and manages dependencies via Brewfile.
 
-## Architecture
+## Repository Structure
 
-- **Single Configuration File**: `wezterm.lua` - Contains all WezTerm configuration
-- **Configuration Structure**: Uses WezTerm's config builder pattern for better error handling
-- **Theming**: Configured with Darcula color scheme and custom window frame styling
-- **Tab Bar Customization**: Custom colors and font settings for the tab bar
+```
+dotfiles/
+├── install.sh          # Bootstrap: brew bundle + symlinks + TPM
+├── Brewfile            # Homebrew packages and casks
+├── ghostty/
+│   └── config          # → ~/.config/ghostty (whole dir symlinked)
+├── tmux/
+│   └── tmux.conf       # → ~/.tmux.conf
+└── nvim/               # → ~/.config/nvim (whole dir symlinked)
+    ├── init.lua
+    └── lua/
+        ├── config/     # options.lua, keymaps.lua, autocmds.lua
+        └── plugins/    # init.lua (lazy.nvim + all plugin specs)
+```
 
-## Configuration Management
+## Deployment
 
-This is a personal WezTerm configuration with no build process or dependencies. Changes are applied by:
-1. Editing `wezterm.lua` directly
-2. Reloading WezTerm (automatic detection of config changes)
+`install.sh` creates symlinks, so edits in this repo take effect immediately without re-running anything. To bootstrap a new machine:
 
-## Key Configuration Areas
+```bash
+git clone <repo> ~/dotfiles
+cd ~/dotfiles
+./install.sh
+```
 
-- **Color Scheme**: Currently set to 'Darcula (base16)'
-- **Window Frame**: Custom font (Roboto Bold) and background colors
-- **Tab Bar**: Custom inactive tab edge color and styling
-- **Font Settings**: Tab bar font size set to 12.0
+Homebrew must already be installed. The script will error early if it's missing.
 
-## Development Notes
+To add/update packages: edit `Brewfile`, then `brew bundle`.
+To regenerate Brewfile from current installs: `brew bundle dump --force` (produces a noisy dump — prune manually).
 
-- Configuration uses modern WezTerm API with `config_builder()` for better error messages
-- All settings are contained in a single config table returned to WezTerm
-- No external dependencies or build tools required
+## Configuration Architecture
 
-## Custom Keybindings
+### Ghostty (`ghostty/config`)
+Simple key=value config. Theme is the built-in `catppuccin-mocha`. Pane management is fully delegated to tmux — no keybinding overrides needed. `macos-titlebar-style = hidden` for a cleaner look.
 
-### Pane Management (WezTerm - now handled by tmux)
-- ~~`Cmd+;` - Split pane horizontally~~
-- ~~`Cmd+'` - Split pane vertically~~  
-- ~~`Cmd+hjkl` - Navigate between panes (vim-style)~~
-- ~~`Cmd+Alt+W` - Close current pane (with confirmation)~~
-- ~~`Cmd+Shift+Arrow Keys` - Resize panes (5 units per press)~~
+### Tmux (`tmux/tmux.conf`)
+Prefix is backtick (`` ` ``). Uses TPM with `tmux-resurrect` and `tmux-continuum` for session persistence (auto-save every 15 minutes). Theme is Catppuccin Mocha with hardcoded hex values. New panes/windows inherit `pane_current_path`.
 
-## Tmux Configuration
+### Neovim (`nvim/`)
+`init.lua` loads four modules in order: `config/options`, `config/keymaps`, `config/autocmds`, then `plugins`. Plugin manager is lazy.nvim (auto-bootstrapped). All plugin specs and their configs live inline in `nvim/lua/plugins/init.lua`. Leader key is Space.
 
-### Tmux Keybindings (Prefix: ` backtick)
+Plugins: catppuccin (transparent bg), nvim-treesitter, nvim-tree, telescope, lualine.
 
-**Pane Management:**
-- `` ` ; `` - Split pane horizontally
-- `` ` ' `` - Split pane vertically
-- `` ` hjkl `` - Navigate between panes (vim-style)
-- `` ` x `` - Close current pane (with confirmation)
-- `exit` or `Ctrl+d` - Close pane by exiting shell
+## Theme Consistency
 
-**Pane Resizing:**
-- `` ` H `` - Resize left (can repeat H after initial prefix)
-- `` ` L `` - Resize right (can repeat L after initial prefix)
-- `` ` J `` - Resize down (can repeat J after initial prefix)
-- `` ` K `` - Resize up (can repeat K after initial prefix)
-- `` ` z `` - Toggle zoom/unzoom current pane
+All three tools use Catppuccin Mocha. Key hex values used in tmux and wezterm:
+- Base: `#1e1e2e`, Text: `#cdd6f4`, Accent: `#cba6f7`, Muted: `#6c7086`
 
-**Window Management:**
-- `` ` c `` - Create new window
-- `` ` & `` - Kill current window
-
-**Session Management:**
-- `` ` d `` - Detach from session
-- `tmux new-session -s name` - Create new named session
-- `tmux attach -t name` - Attach to existing session
-- `tmux list-sessions` - List all sessions
-
-**Session Restore (automatic with plugins):**
-- `` ` Ctrl+s `` - Save session manually
-- `` ` Ctrl+r `` - Restore session manually
-- `` ` I `` - Install tmux plugins (run once after config changes)
-
-**Special Notes:**
-- To type a literal backtick: Press `` ` `` twice (`` ` ` ``)
-
-### Tmux Features
-- **Auto-save**: Sessions saved every 15 minutes automatically
-- **Auto-restore**: Sessions restore when tmux starts
-- **Pane contents**: Terminal history is preserved
-- **Custom theme**: Catppuccin Mocha colors matching WezTerm
-- **Mouse support**: Click to select panes, drag borders to resize
-
-## Current Configuration Features
-
-- **Font**: JetBrainsMono Nerd Font Bold, 18pt (terminal) / 14pt (tabs)
-- **Theme**: Catppuccin Mocha
-- **Tabs**: Hide when single tab, show index + process + path
-- **Window**: 20px padding on all sides
-- **Pane splitting**: tmux-style keybindings
+When changing the scheme, update: `ghostty/config` (`theme`), hex values in `tmux/tmux.conf`, and the catppuccin flavour in `nvim/lua/plugins/init.lua`.

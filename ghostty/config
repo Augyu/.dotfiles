@@ -1,0 +1,22 @@
+# Ghostty configuration
+
+# Font
+font-family = JetBrainsMono Nerd Font
+font-style = Bold
+font-size = 18
+
+# Theme (built-in Catppuccin Mocha)
+theme = catppuccin-mocha
+
+# Padding
+window-padding-x = 20
+window-padding-y = 20
+
+# macOS window style — hide native title bar for a cleaner look
+macos-titlebar-style = hidden
+
+# Shell integration
+shell-integration = zsh
+
+# Quit when last window closes (macOS default is to keep app running)
+quit-after-last-window-closed = true

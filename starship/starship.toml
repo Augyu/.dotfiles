@@ -1,0 +1,34 @@
+add_newline = false
+
+format = """
+$directory$git_branch$git_status$python$nodejs$character
+"""
+
+[directory]
+style = "bold #cba6f7"
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = " "
+style = "bold #89b4fa"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold #f38ba8"
+format = '([$all_status$ahead_behind]($style) )'
+
+[python]
+symbol = " "
+style = "#a6e3a1"
+format = "[$symbol$version]($style) "
+python_binary = ["python3", "python"]
+
+[nodejs]
+symbol = " "
+style = "#a6e3a1"
+format = "[$symbol$version]($style) "
+
+[character]
+success_symbol = "[❯](bold #cba6f7)"
+error_symbol = "[❯](bold #f38ba8)"

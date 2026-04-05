@@ -53,7 +53,7 @@ Plugins: catppuccin (transparent bg), nvim-treesitter, nvim-tree, telescope, lua
 
 ## Theme Consistency
 
-All three tools use Catppuccin Mocha. Key hex values used in tmux and wezterm:
+All three tools use Catppuccin Mocha. Key hex values used in tmux:
 - Base: `#1e1e2e`, Text: `#cdd6f4`, Accent: `#cba6f7`, Muted: `#6c7086`
 
 When changing the scheme, update: `ghostty/config` (`theme`), hex values in `tmux/tmux.conf`, and the catppuccin flavour in `nvim/lua/plugins/init.lua`.

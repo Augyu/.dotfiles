@@ -1,12 +1,13 @@
 # Terminal Dotfiles
 
-A portable terminal configuration featuring WezTerm + Tmux with session restore, custom theming, and vim-style keybindings.
+A portable terminal configuration featuring Ghostty + Tmux + Neovim with session restore, custom theming, and vim-style keybindings.
 
 ## Features
 
-- **WezTerm**: Modern terminal with custom font and Catppuccin Mocha theme
-- **Tmux**: Session management with automatic save/restore
-- **Custom Theme**: Consistent Catppuccin Mocha colors across both tools
+- **Ghostty**: Modern terminal with JetBrainsMono Nerd Font and Catppuccin Mocha theme
+- **Tmux**: Session management with automatic save/restore (every 15 minutes)
+- **Neovim**: Full editor setup with LSP-ready plugins, Telescope, and nvim-tree
+- **Consistent Theme**: Catppuccin Mocha colors across all three tools
 - **Vim-style Navigation**: hjkl pane navigation and intuitive keybindings
 - **Session Persistence**: Automatically restore your terminal layout after restarts
 
@@ -20,31 +21,30 @@ A portable terminal configuration featuring WezTerm + Tmux with session restore,
 
 2. **Run the setup script:**
    ```bash
-   ./setup.sh
+   ./install.sh
    ```
 
 3. **Start using:**
-   - Restart WezTerm
-   - Create tmux session: `tmux new-session -s main`
-   - Install tmux plugins: `Ctrl+z I`
+   - Open Ghostty
+   - Create a tmux session: `tmux new-session -s main`
+   - Install tmux plugins: `` ` ``+`I` inside tmux
 
 ## Manual Installation
 
-If you prefer to install manually:
-
 1. Install dependencies:
    ```bash
-   brew install --cask wezterm
-   brew install tmux
-   brew install font-jetbrains-mono-nerd-font
+   brew install --cask ghostty
+   brew install tmux neovim starship
+   brew install --cask font-jetbrains-mono-nerd-font
    ```
 
-2. Copy configurations:
+2. Symlink configs:
    ```bash
-   mkdir -p ~/.config/wezterm
-   cp wezterm.lua ~/.config/wezterm/
-   cp CLAUDE.md ~/.config/wezterm/
-   cp tmux.conf ~/.tmux.conf
+   ln -sfn ~/.dotfiles/zsh/.zshrc ~/.zshrc
+   ln -sfn ~/.dotfiles/ghostty ~/.config/ghostty
+   ln -sfn ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
+   ln -sfn ~/.dotfiles/nvim ~/.config/nvim
+   ln -sfn ~/.dotfiles/starship/starship.toml ~/.config/starship.toml
    ```
 
 3. Install Tmux Plugin Manager:
@@ -54,89 +54,97 @@ If you prefer to install manually:
 
 ## Configuration Details
 
-### WezTerm Features
-- **Font**: JetBrainsMono Nerd Font Bold, 18pt (terminal) / 14pt (tabs)
-- **Theme**: Catppuccin Mocha
-- **Tabs**: Auto-hide when single tab, show index + process + path
-- **Window**: 20px padding on all sides
+### Ghostty
+- **Font**: JetBrainsMono Nerd Font Bold, 18pt
+- **Theme**: Catppuccin Mocha (built-in)
+- **Padding**: 20px on all sides
+- **Pane management**: fully delegated to tmux
 
-### Tmux Features (Prefix: Ctrl+z)
-- **Auto-save**: Sessions saved every 15 minutes
-- **Auto-restore**: Sessions restore when tmux starts
+### Tmux (Prefix: `` ` ``)
+- **Auto-save**: Sessions saved every 15 minutes via tmux-continuum
+- **Auto-restore**: Sessions restore when tmux starts via tmux-resurrect
 - **Custom theme**: Catppuccin Mocha colors
 - **Mouse support**: Click to select panes, drag borders to resize
 
+### Neovim
+- **Plugin manager**: lazy.nvim (auto-bootstrapped)
+- **Plugins**: catppuccin, nvim-treesitter, nvim-tree, telescope, lualine
+- **Leader key**: Space
+
 ## Key Bindings
 
-### Tmux (Prefix: Ctrl+z)
+### Tmux (Prefix: `` ` ``)
 
 **Pane Management:**
-- `Ctrl+z ;` - Split pane horizontally
-- `Ctrl+z '` - Split pane vertically
-- `Ctrl+z hjkl` - Navigate between panes (vim-style)
-- `Ctrl+z x` - Close current pane
+- `` ` ; `` - Split pane horizontally
+- `` ` ' `` - Split pane vertically
+- `` ` hjkl `` - Navigate between panes (vim-style)
+- `` ` z `` - Zoom/unzoom current pane
 
-**Pane Resizing:**
-- `Ctrl+z H` - Resize left (can repeat H after initial prefix)
-- `Ctrl+z L` - Resize right (can repeat L after initial prefix)
-- `Ctrl+z J` - Resize down (can repeat J after initial prefix)
-- `Ctrl+z K` - Resize up (can repeat K after initial prefix)
+**Pane Resizing (repeatable):**
+- `` ` H/L/J/K `` - Resize left/right/down/up
 
 **Session Management:**
-- `Ctrl+z d` - Detach from session
-- `Ctrl+z c` - Create new window
+- `` ` d `` - Detach from session
+- `` ` c `` - New window (in current directory)
 - `tmux attach -t <session>` - Attach to session
 
 **Session Restore:**
-- `Ctrl+z Ctrl+s` - Save session manually
-- `Ctrl+z Ctrl+r` - Restore session manually
+- `` ` Ctrl+s `` - Save session manually
+- `` ` Ctrl+r `` - Restore session manually
+
+### Neovim (Leader: Space)
+
+- `<leader>pv` - Toggle file explorer (nvim-tree)
+- `<leader>ff/fg/fb/fh` - Telescope: files / grep / buffers / help
+- `<leader>y/Y` - Yank to system clipboard
+- `<leader>w/q` - Save / quit
 
 ## File Structure
 
 ```
 ~/.dotfiles/
-├── README.md          # This file
-├── setup.sh          # Automated setup script
-├── wezterm.lua       # WezTerm configuration
-├── tmux.conf         # Tmux configuration
-└── CLAUDE.md         # Detailed documentation
+├── README.md
+├── CLAUDE.md
+├── install.sh              # Bootstrap: brew bundle + symlinks + TPM
+├── Brewfile
+├── ghostty/
+│   └── config
+├── tmux/
+│   └── tmux.conf
+├── zsh/
+│   └── .zshrc
+├── starship/
+│   └── starship.toml
+└── nvim/
+    ├── init.lua
+    └── lua/
+        ├── config/
+        │   ├── options.lua
+        │   ├── keymaps.lua
+        │   └── autocmds.lua
+        └── plugins/
+            └── init.lua
 ```
 
 ## Updating
 
-To sync changes across machines:
-
-1. **Push changes from main machine:**
-   ```bash
-   cd ~/.dotfiles
-   git add .
-   git commit -m "Update terminal config"
-   git push
-   ```
-
-2. **Pull changes on other machine:**
-   ```bash
-   cd ~/.dotfiles
-   git pull
-   ./setup.sh
-   ```
-
-## Customization
-
-- **WezTerm**: Edit `wezterm.lua`
-- **Tmux**: Edit `tmux.conf`
-- **Colors**: Both use Catppuccin Mocha - search and replace color codes
-- **Keybindings**: Modify the respective config files
+```bash
+cd ~/.dotfiles
+git pull
+# install.sh is idempotent — re-run if new symlinks were added
+./install.sh
+```
 
 ## Troubleshooting
 
 **Tmux plugins not working?**
-- Run `Ctrl+z I` to install plugins
+- Run `` ` ``+`I` to install plugins
 - Restart tmux: `tmux kill-server && tmux`
 
 **Font not appearing?**
-- Ensure JetBrainsMono Nerd Font is installed: `brew install font-jetbrains-mono-nerd-font`
-- Restart WezTerm
+- Ensure JetBrainsMono Nerd Font is installed: `brew install --cask font-jetbrains-mono-nerd-font`
+- Restart Ghostty
 
 **Session restore not working?**
 - Check tmux plugins are installed

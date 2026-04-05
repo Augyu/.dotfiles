@@ -24,7 +24,7 @@ local plugins = {
     priority = 1000, -- Load first
     config = function()
       require("catppuccin").setup({
-        flavour = "mocha", -- Same as your WezTerm/tmux!
+        flavour = "mocha", -- Same as your Ghostty/tmux!
         transparent_background = true,
         integrations = {
           nvimtree = true,
@@ -73,7 +73,6 @@ local plugins = {
         },
       })
       
-      -- Override the default file explorer keymap
       vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
     end,
   },

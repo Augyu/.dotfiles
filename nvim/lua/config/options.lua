@@ -29,12 +29,12 @@ opt.scrolloff = 8         -- Keep 8 lines above/below cursor
 opt.sidescrolloff = 8     -- Keep 8 columns left/right of cursor
 
 -- Behavior
-opt.hidden = true         -- Allow hidden buffers
+opt.hidden = true         -- Allow switching buffers without saving first
 opt.swapfile = false      -- Don't create swap files
 opt.backup = false        -- Don't create backup files
-opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-opt.undofile = true       -- Save undo history to file
-opt.updatetime = 50       -- Faster completion (default is 4000ms)
+opt.undodir = os.getenv("HOME") .. "/.vim/undodir"  -- Persist undo history across sessions
+opt.undofile = true       -- Enable persistent undo
+opt.updatetime = 50       -- Reduce delay for CursorHold events (default 4000ms is too slow)
 
 -- Clipboard
 opt.clipboard = "unnamedplus"  -- Use system clipboard

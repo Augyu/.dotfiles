@@ -12,8 +12,6 @@ local function map(mode, lhs, rhs, opts)
 end
 
 -- Normal mode mappings
--- File operations
-map("n", "<leader>pv", vim.cmd.Ex, { desc = "Open file explorer" })
 
 -- Better window navigation (like your tmux setup!)
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
